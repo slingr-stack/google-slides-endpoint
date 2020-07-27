@@ -26,11 +26,13 @@ endpoint.presentations.get = function(presentationId) {
 
 // Presentations - Pages
 
-endpoint.presentations.get = function(presentationId, pageId) {
+endpoint.presentations.pages = {};
+
+endpoint.presentations.pages.get = function(presentationId, pageId) {
     return endpoint.get('/presentations/'+presentationId+'/pages/'+pageId);
 };
 
-endpoint.presentations.getThumbnail = function(presentationId, pageId, params) {
+endpoint.presentations.pages.getThumbnail = function(presentationId, pageId, params) {
     return endpoint.get({
         path: '/presentations/'+presentationId+'/pages/'+pageId+'/thumbnail',
         params: params
