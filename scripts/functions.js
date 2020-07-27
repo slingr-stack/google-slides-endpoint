@@ -4,8 +4,67 @@
 
 // Presentations
 
+endpoint.presentations = {};
+
+endpoint.presentations.batchUpdate = function(presentationId, body) {
+    return endpoint.post({
+        path: '/presentations/'+presentationId+':batchUpdate',
+        body: body
+    });
+};
+
+endpoint.presentations.create = function(body) {
+    return endpoint.post({
+        path: '/presentations',
+        body: body
+    });
+};
+
+endpoint.presentations.get = function(presentationId) {
+    return endpoint.get('/presentations/'+presentationId);
+};
+
 // Presentations - Pages
 
+endpoint.presentations.get = function(presentationId, pageId) {
+    return endpoint.get('/presentations/'+presentationId+'/pages/'+pageId);
+};
+
+endpoint.presentations.getThumbnail = function(presentationId, pageId, params) {
+    return endpoint.get({
+        path: '/presentations/'+presentationId+'/pages/'+pageId+'/thumbnail',
+        params: params
+    });
+};
+
+/////////////////////
+// Public API - Generic Functions
+/////////////////////
+
+endpoint.get = function (url) {
+    options = checkHttpOptions(url, {});
+    return endpoint._getRequest(options);
+};
+
+endpoint.post = function (url, options) {
+    options = checkHttpOptions(url, options);
+    return endpoint._postRequest(options);
+};
+
+endpoint.put = function (url, options) {
+    options = checkHttpOptions(url, options);
+    return endpoint._putRequest(options);
+};
+
+endpoint.patch = function (url, options) {
+    options = checkHttpOptions(url, options);
+    return endpoint._patchRequest(options);
+};
+
+endpoint.delete = function (url) {
+    var options = checkHttpOptions(url, {});
+    return endpoint._deleteRequest(options);
+};
 
 /////////////////////
 // Utilities
