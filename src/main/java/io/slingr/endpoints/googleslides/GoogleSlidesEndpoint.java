@@ -501,7 +501,7 @@ public class GoogleSlidesEndpoint extends PerUserEndpoint {
 
         final GoogleSlidesService service = getService(data, userId, request.getUserEmail(), functionId);
 
-        final Json response = service.getRequest(buildUrl(data.string("path")), functionId);
+        final Json response = service.getRequest(buildUrl(data.string("path")), data.json("params"), functionId);
         logger.info(String.format("Function GET: [%s]", response.toString()));
         return response;
     }
@@ -517,7 +517,7 @@ public class GoogleSlidesEndpoint extends PerUserEndpoint {
 
         final GoogleSlidesService service = getService(data, userId, request.getUserEmail(), functionId);
 
-        final Json response = service.postRequest(buildUrl(data.string("path")), content, functionId);
+        final Json response = service.postRequest(buildUrl(data.string("path")), data.json("params"), content, functionId);
         logger.info(String.format("Function POST: [%s]", response.toString()));
         return response;
     }
@@ -533,7 +533,7 @@ public class GoogleSlidesEndpoint extends PerUserEndpoint {
 
         final GoogleSlidesService service = getService(data, userId, request.getUserEmail(), functionId);
 
-        final Json response = service.putRequest(buildUrl(data.string("path")), content, functionId);
+        final Json response = service.putRequest(buildUrl(data.string("path")), data.json("params"), content, functionId);
         logger.info(String.format("Function PUT: [%s]", response.toString()));
         return response;
     }
@@ -549,7 +549,7 @@ public class GoogleSlidesEndpoint extends PerUserEndpoint {
 
         final GoogleSlidesService service = getService(data, userId, request.getUserEmail(), functionId);
 
-        final Json response = service.patchRequest(buildUrl(data.string("path")), content, functionId);
+        final Json response = service.patchRequest(buildUrl(data.string("path")), data.json("params"), content, functionId);
         logger.info(String.format("Function PATCH: [%s]", response.toString()));
         return response;
     }
@@ -563,7 +563,7 @@ public class GoogleSlidesEndpoint extends PerUserEndpoint {
 
         final GoogleSlidesService service = getService(data, userId, request.getUserEmail(), functionId);
 
-        final Json response = service.deleteRequest(buildUrl(data.string("path")), functionId);
+        final Json response = service.deleteRequest(buildUrl(data.string("path")), data.json("params"), functionId);
         logger.info(String.format("Function DELETE: [%s]", response.toString()));
         return response;
     }

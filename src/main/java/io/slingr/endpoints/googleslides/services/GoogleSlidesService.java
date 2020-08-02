@@ -4,6 +4,7 @@ import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.json.GenericJson;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.slides.GenericGoogleSlidesService;
+import com.google.api.services.slides.v1.SlidesRequest;
 import io.slingr.endpoints.exceptions.EndpointException;
 import io.slingr.endpoints.googleslides.GoogleSlidesEndpoint;
 import io.slingr.endpoints.googleslides.services.entities.ApiException;
@@ -54,9 +55,11 @@ public class GoogleSlidesService {
         this.endpoint = endpoint;
     }
 
-    public Json getRequest(String url, String functionId) {
+    public Json getRequest(String url, Json params, String functionId) {
         try {
-            final GenericJson json = service.generic().get(url).execute();
+            GenericGoogleSlidesService.GenericRequests.GetRequest request = service.generic().get(url);
+            applyParams(request, params);
+            final GenericJson json = request.execute();
             final Json response = getJson(json);
 
             logger.info(String.format("Google response [%s]", response));
@@ -70,9 +73,11 @@ public class GoogleSlidesService {
         }
     }
 
-    public Json postRequest(String url, Json content, String functionId) {
+    public Json postRequest(String url, Json params, Json content, String functionId) {
         try {
-            final GenericJson json = service.generic().post(url, content).execute();
+            GenericGoogleSlidesService.GenericRequests.PostRequest request = service.generic().post(url, content);
+            applyParams(request, params);
+            final GenericJson json = request.execute();
             final Json response = getJson(json);
 
             logger.info(String.format("Google response [%s]", response));
@@ -86,9 +91,11 @@ public class GoogleSlidesService {
         }
     }
 
-    public Json putRequest(String url, Json content, String functionId) {
+    public Json putRequest(String url, Json params, Json content, String functionId) {
         try {
-            final GenericJson json = service.generic().put(url, content).execute();
+            GenericGoogleSlidesService.GenericRequests.PutRequest request = service.generic().put(url, content);
+            applyParams(request, params);
+            final GenericJson json = request.execute();
             final Json response = getJson(json);
 
             logger.info(String.format("Google response [%s]", response));
@@ -102,9 +109,11 @@ public class GoogleSlidesService {
         }
     }
 
-    public Json patchRequest(String url, Json content, String functionId) {
+    public Json patchRequest(String url, Json params, Json content, String functionId) {
         try {
-            final GenericJson json = service.generic().patch(url, content).execute();
+            GenericGoogleSlidesService.GenericRequests.PatchRequest request = service.generic().patch(url, content);
+            applyParams(request, params);
+            final GenericJson json = request.execute();
             final Json response = getJson(json);
 
             logger.info(String.format("Google response [%s]", response));
@@ -118,9 +127,11 @@ public class GoogleSlidesService {
         }
     }
 
-    public Json deleteRequest(String url, String functionId) {
+    public Json deleteRequest(String url, Json params, String functionId) {
         try {
-            final GenericJson json = service.generic().delete(url).execute();
+            GenericGoogleSlidesService.GenericRequests.DeleteRequest request = service.generic().delete(url);
+            applyParams(request, params);
+            final GenericJson json = request.execute();
             final Json response = getJson(json);
 
             logger.info(String.format("Google response [%s]", response));
@@ -146,6 +157,14 @@ public class GoogleSlidesService {
             }
         });
         return response;
+    }
+
+    private void applyParams(SlidesRequest request, Json params) {
+        if (params != null) {
+            for (String key : params.keys()) {
+                request.set(key, params.object(key));
+            }
+        }
     }
 
     private static Json processException(Exception e) {
